@@ -32,15 +32,15 @@ public:
 
         if (argv.size() < 2) {
             vector<string> keys = session->getEnvironmentVariableNames();
-            for (int i = 0; i < keys.size(); ++i) {
+            for (size_t i = 0; i < keys.size(); ++i) {
                 string& name = keys[i];
-                cout << name << "=" << session->getEnvironmentVariable(name)
+                cout << name << "=" << session->getEnvVar(name)
                      << endl;
             }
         }
         else {
             const string& name = argv[1];
-            cout << session->getEnvironmentVariable(name)
+            cout << session->getEnvVar(name)
                  << endl;
         }
     }

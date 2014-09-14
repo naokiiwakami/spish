@@ -23,11 +23,11 @@ public:
     virtual ~BadUsageException() throw() {
     }
 
-    bool hasMessage() {
+    bool hasMessage() const {
         return m_hasMessage;
     }
 
-    std::string getMessage() {
+    std::string getMessage() const {
         return m_message;
     }
 

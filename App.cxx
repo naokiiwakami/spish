@@ -11,13 +11,21 @@
 
 App::App()
 {
-    session = new Session();
+    m_session = new Session();
 }
 
 App*
 App::initialize(int argc, char* argv[])
 {
-    App* app = new App();
+    App* app = NULL;
+
+    try {
+        app = new App();
+    }
+    catch (const std::exception& ex) {
+        fprintf(stderr, "Application initialization error: %s", ex.what());
+    }
+
     return app;
 }
 
@@ -38,7 +46,7 @@ App::run()
 {
     bool gotQuit = false;
     do {
-        char* line = readline("spish> ");
+        char* line = readline(m_session->getPrompt().c_str());
         if (line == NULL) {
             break;
         }
@@ -76,5 +84,5 @@ App::processInput(const std::string& line)
         argv.push_back(*tok_iter);
     }
 
-    return session->processCommand(argv);
+    return m_session->processCommand(argv);
 }

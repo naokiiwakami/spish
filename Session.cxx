@@ -2,6 +2,8 @@
 
 #include "Processor.hxx"
 #include "Session.hxx"
+#include "SpiDriver.hxx"
+#include "ApplicationException.hxx"
 #include "BadUsageException.hxx"
 
 using namespace std;
@@ -9,7 +11,8 @@ using namespace std;
 Session::Session()
 {
     // default device name
-    m_environment["device"] = "/dev/spidev0.0";
+    m_spi = new SpiDriver(this);
+    m_prompt = "spish> ";
 }
 
 bool
@@ -31,12 +34,15 @@ Session::processCommand(const vector<string>& argv)
         try {
             processor->process(argv, this);
         }
-        catch (BadUsageException ex) {
+        catch (const BadUsageException& ex) {
             if (ex.hasMessage()) {
-                cerr << ex.getMessage() << endl << endl;
+                cout << ex.getMessage() << endl << endl;
             }
 
             processor->usage();
+        }
+        catch (const ApplicationException& ex) {
+            cout << ex.what() << endl;
         }
     }
 
@@ -59,7 +65,7 @@ Session::getEnvironmentVariableNames()
 }
 
 string
-Session::getEnvironmentVariable(const string& name)
+Session::getEnvVar(const string& name)
 {
     string output;
     map<string, string>::iterator it = m_environment.find(name);
@@ -70,8 +76,7 @@ Session::getEnvironmentVariable(const string& name)
 }
 
 void
-Session::setEnvironmentVariable(const std::string& name,
-                                const std::string& value)
+Session::setEnvVar(const std::string& name, const std::string& value)
 {
     m_environment[name] = value;
 }

@@ -24,7 +24,7 @@ public:
     }
 
     void myUsage() {
-        printf("Usage: %s <name> <value>\n", getCommand().c_str());
+        printf("Usage: %s [name [value]]\n", getCommand().c_str());
         printf("  where\n");
         printf("    name: environment variable name\n");
         printf("    value: environment variable value\n");
@@ -32,10 +32,12 @@ public:
 
     void process(const vector<string>& argv, Session* session) {
         if (argv.size() < 3) {
-            throw BadUsageException();
+            Processor* delegate = find("show");
+            delegate->process(argv, session);
         }
-
-        session->setEnvironmentVariable(argv[1], argv[2]);
+        else {
+            session->setEnvVar(argv[1], argv[2]);
+        }
     }
 }
 setProcessor;

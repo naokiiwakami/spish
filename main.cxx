@@ -7,7 +7,6 @@ int main(int argc, char* argv[])
 {
     App *app = App::initialize(argc, argv);
     if (app == NULL) {
-        App::usage(basename(argv[0]));
         return 1;
     }
 

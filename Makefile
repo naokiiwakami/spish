@@ -8,7 +8,7 @@ TARGET = spish
 all: $(TARGET)
 
 LIBS = -lreadline -lhistory -lcurses
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 
 CXXFILES = \
 	main.cxx \
@@ -17,7 +17,9 @@ CXXFILES = \
 	Session.cxx \
 	Help.cxx \
 	Show.cxx \
-	Set.cxx
+	Set.cxx \
+	Send.cxx \
+	SpiDriver.cxx
 
 OFILES = $(CXXFILES:.cxx=.o)
 

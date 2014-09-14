@@ -22,7 +22,7 @@ private:
     bool processInput(const std::string& line);
 
 private:
-    Session* session;
+    Session* m_session;
 };
 
 #endif
